@@ -8,7 +8,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ReactiveComponent implements OnInit {
 
-  
+
   forma: FormGroup;
 
   constructor( private fb: FormBuilder){
@@ -21,7 +21,7 @@ export class ReactiveComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  get pasatiempos() { 
+  get pasatiempos() {
     return this.forma.get('pasatiempos') as FormArray;
   }
 
@@ -55,12 +55,10 @@ export class ReactiveComponent implements OnInit {
         distrito: ['', Validators.required],
         ciudad  : ['', Validators.required],
       }),
-      pasatiempos: this.fb.array([
-        [],[],[],[],[]
-      ])
+      pasatiempos: this.fb.array([])
 
     });
-  
+
   }
 
 
@@ -69,7 +67,7 @@ export class ReactiveComponent implements OnInit {
     this.forma.reset({
       nombre: 'Fernando',
       apellido: 'Perez',
-      correo: 'juam@gmail.com',
+      correo: 'juan@gmail.com',
       direccion: {
         distrito: 'Ontario',
         ciudad: 'Ottawa'
@@ -78,9 +76,15 @@ export class ReactiveComponent implements OnInit {
 
   }
 
+  agregarPasatiempo(){
+    this.pasatiempos.push( this.fb.control('') );
+  }
 
+  borrarPasatiempos(i : number){
+    this.pasatiempos.removeAt(i);
+  }
 
-  guardar(){ 
+  guardar(){
     console.log( this.forma );
 
     if( this.forma.invalid){
@@ -91,10 +95,10 @@ export class ReactiveComponent implements OnInit {
     }
 
 
-    // Posteo de informacion 
+    // Posteo de informacion
     this.forma.reset({
       nombre: 'sin nombre'
     });
   }
- 
+
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ValidadoresService } from 'src/app/services/validadores.service';
 
 @Component({
   selector: 'app-reactive',
@@ -8,10 +9,11 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ReactiveComponent implements OnInit {
 
-
+  
   forma: FormGroup;
 
-  constructor( private fb: FormBuilder){
+  constructor( private fb: FormBuilder,
+               private validadores: ValidadoresService){
 
     this.crearFormulario();
     this.cargarDataAlFormulario();
@@ -21,7 +23,7 @@ export class ReactiveComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  get pasatiempos() {
+  get pasatiempos() { 
     return this.forma.get('pasatiempos') as FormArray;
   }
 
@@ -49,7 +51,7 @@ export class ReactiveComponent implements OnInit {
 
     this.forma = this.fb.group({
       nombre  : ['', [ Validators.minLength(5), Validators.required  ] ],
-      apellido: ['', Validators.required ],
+      apellido: ['', [ Validators.required, this.validadores.noHerrera ] ],
       correo  : ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')] ],
       direccion: this.fb.group({
         distrito: ['', Validators.required],
@@ -58,7 +60,7 @@ export class ReactiveComponent implements OnInit {
       pasatiempos: this.fb.array([])
 
     });
-
+  
   }
 
 
@@ -67,7 +69,7 @@ export class ReactiveComponent implements OnInit {
     this.forma.reset({
       nombre: 'Fernando',
       apellido: 'Perez',
-      correo: 'juan@gmail.com',
+      correo: 'juam@gmail.com',
       direccion: {
         distrito: 'Ontario',
         ciudad: 'Ottawa'
@@ -84,7 +86,7 @@ export class ReactiveComponent implements OnInit {
     this.pasatiempos.removeAt(i);
   }
 
-  guardar(){
+  guardar(){ 
     console.log( this.forma );
 
     if( this.forma.invalid){
@@ -95,10 +97,10 @@ export class ReactiveComponent implements OnInit {
     }
 
 
-    // Posteo de informacion
+    // Posteo de informacion 
     this.forma.reset({
       nombre: 'sin nombre'
     });
   }
-
+ 
 }

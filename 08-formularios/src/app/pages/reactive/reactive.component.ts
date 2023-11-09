@@ -15,6 +15,7 @@ export class ReactiveComponent implements OnInit {
 
     this.crearFormulario();
 
+    this.cargarDataAlFormulario();
   }
 
   ngOnInit(): void {
@@ -54,6 +55,20 @@ export class ReactiveComponent implements OnInit {
 
   }
 
+  cargarDataAlFormulario() {
+
+    this.forma.reset({
+      nombre: 'Fernando',
+      apellido: 'Perez',
+      correo: 'juam@gmail.com',
+      direccion: {
+        distrito: 'Ontario',
+        ciudad: 'Ottawa'
+      }
+    });
+
+  }
+
   guardar(){
     console.log( this.forma );
     if( this.forma.invalid){
@@ -62,5 +77,10 @@ export class ReactiveComponent implements OnInit {
         console.log( control );
       });
     }
+
+     // Posteo de informacion
+     this.forma.reset({
+      nombre: 'sin nombre'
+    });
   }
 }
